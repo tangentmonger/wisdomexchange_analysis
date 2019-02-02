@@ -53,7 +53,7 @@ accumulator = np.zeros((accumulator_height, accumulator_width), dtype=np.uint8)
 y_idxs, x_idxs = np.nonzero(np.asarray(im))  # (row, col) indexes to ink pixels
 
 
-brightness = 3
+brightness = 5
 
 scanner = np.zeros((width, height), dtype=np.uint8)
 
@@ -87,7 +87,8 @@ with imageio.get_writer('output.gif', mode='I', fps=50) as writer:
         t_offset_idx = (t_idx + accumulator_index) % num_thetas
 
         # Calculate rho. diag_len is added for a positive index
-        rho = int(x * cos_t[t_offset_idx] + y * sin_t[t_offset_idx] + diag_len)
+        #rho = int(x * cos_t[t_offset_idx]  + y * sin_t[t_offset_idx] + diag_len)
+        rho = int((x - (height / 2)) * cos_t[t_offset_idx]  + (y-(width/2)) * sin_t[t_offset_idx] + diag_len)
 
         if (t_idx + accumulator_index) % page_height +1 > half_page_height:
           add(t_idx + accumulator_index + page_height, (2 * diag_len) - 1 - rho)
